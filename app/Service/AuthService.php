@@ -44,7 +44,6 @@ class AuthService
            return redirect()->back()->with('login-error', 'Incorrect email and password');
         }
 
-//        dd(json_decode($response->body()));
         session()->put('token', $response->collect()['token']);
         session()->put('login', true);
         return redirect('user');

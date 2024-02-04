@@ -5,14 +5,12 @@ namespace App\Http\Controllers;
 use App\Service\AuthService;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
     use ValidatesRequests;
 
-    public function __construct(protected  AuthService $authService)
+    public function __construct(protected AuthService $authService)
     {
     }
 
@@ -42,13 +40,16 @@ class AuthController extends Controller
         ]);
 
         $this->authService->handleSignup($request);
+        session()->flash('msg', 'Account created!');
+        session()->flash('success', 200);
+
         return view('login');
     }
 
     public function logout(Request $request)
     {
-        Session::flush();
-        Auth::logout();
+        session()->flush();
+        session()->forget(['login', 'token']);
         return redirect('login');
     }
 }

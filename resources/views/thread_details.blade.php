@@ -20,7 +20,7 @@
                         </div>
                     </a>
                     <h1 class="my-6 text-4xl font-medium text-gray-900">
-                        {{ $thread->title }}
+                        {{ $thread?->title }}
                     </h1>
                     <div class="md:flex items-center">
                         <div class="w-10 h-10 rounded-full">
@@ -32,7 +32,7 @@
                                 by <span class="text-blue-500">{{ $thread?->user?->displayName }}</span>
                             </p>
                             <div class="w-1 h-1 bg-gray-500 rounded-full mx-2"></div>
-                            <p class="text-gray-600 text-xs">{{ \Carbon\Carbon::parse($thread->createdAt)->diffForHumans() }}</p>
+                            <p class="text-gray-600 text-xs">{{ \Carbon\Carbon::parse($thread?->createdAt)->diffForHumans() }}</p>
                             <div class="w-1 h-1 bg-gray-500 rounded-full mx-2"></div>
                             <p class="ml-2 text-gray-600 text-xs">
                                 In: <span class="text-blue-500">Marketing</span>
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <p class="mt-4 text-gray-600 text-sm">
-                        {{ $thread->body }}
+                        {{ $thread?->body }}
                     </p>
                     <div class="mt-8 flex items-start">
                         <div class="w-10 h-10 rounded-full flex-shrink-0">
@@ -55,7 +55,12 @@
                         </form>
                     </div>
                     <div class="my-8 text-gray-900 text-xl">Comments</div>
-                    @foreach($thread?->posts as $post)
+                    @if(count($thread?->posts) === 0)
+                        <div>
+                            <p>No comments</p>
+                        </div>
+                    @endif
+                    @foreach($thread?->posts ?? [] as $post)
                         <div>
                             <div class="flex items-center">
                                 <div class="w-10 h-10 rounded-full flex-shrink-0">
@@ -92,3 +97,16 @@
         </div>
     </div>
 @stop
+
+@push('javascript')
+
+    <script>
+        const textarea = document.querySelector("textarea");
+        textarea.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                textarea.form.submit();
+            }
+        });
+    </script>
+@endpush

@@ -18,10 +18,10 @@ class AuthMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!session()->has('login') && session()->get('login') && session()->has('token')) {
-            return redirect()->back();
+        if (!session()->has('login') && !session()->get('login')) {
+            return redirect('/login');
         }
-        return $next($request);
 
+        return $next($request);
     }
 }

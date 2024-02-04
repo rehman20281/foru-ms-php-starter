@@ -103,7 +103,7 @@
                         <hr class="mt-6 mb-8 border-t border-gray-300">
 
                         {{-- --}}
-                        @foreach($threads as $thread)
+                        @foreach((array)$threads as $thread)
                             <a href="{{route('thread.detail', $thread->id)}}">
                                 <div class="md:flex items-center">
                                     <div class="w-10 h-10 rounded-full flex-shrink-0">

@@ -87,6 +87,7 @@
 </div>
 
 <script src="{{asset('assets/scripts/script.js')}}"></script>
+@stack('javascript')
 </body>
 
 </html>

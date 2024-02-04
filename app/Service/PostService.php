@@ -32,7 +32,7 @@ class PostService
         $response = $this->http->getDataByGetMehtod(config('api.posts'));
         $posts = json_decode($response->body());
 
-        return $posts->posts;
+        return $posts->posts ?? [];
     }
 
 }

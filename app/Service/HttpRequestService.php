@@ -23,8 +23,7 @@ class HttpRequestService
 
     public function getLoginUser(string $url = "https://foru-ms.vercel.app/api/v1/auth/me"): Response
     {
-
-        if (!session()->has('userData')) {
+        if (!session()->has('userData') && !in_array(session()->get('userData')?->status() ?? 401, [200, 201])) {
             $user = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => "Bearer " . session()->get('token'),

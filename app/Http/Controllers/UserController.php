@@ -14,13 +14,17 @@ class UserController extends Controller
 
     public function index()
     {
-        $response = $this->http->getLoginUser(config('api.get_user'));
+        try {
+            $response = $this->http->getLoginUser(config('api.get_user'));
 
-        if (!$response->ok()) {
-            return redirect('login');
+            if (!$response->ok()) {
+                return response()->json(['user' => $response->status()]);
+            }
+
+            $user = $response->collect();
+            return view("user", compact("user"));
+        } catch (\Exception $e) {
+
         }
-        $user = $response->collect();
-
-        return view("user", compact("user"));
     }
 }

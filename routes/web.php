@@ -15,41 +15,44 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\ThreadController::class, 'getThreads'])
     ->name('threads')
-    ->middleware('authenticate_user');
+    ->middleware(\App\Http\Middleware\AuthMiddleware::class);
 
-Route::get('login', [\App\Http\Controllers\AuthController::class, 'index'])
-    ->name('login')->middleware(\App\Http\Middleware\AuthLogin::class);
+Route::get('/login', [\App\Http\Controllers\AuthController::class, 'index'])
+    ->name('login')
+    ->middleware(\App\Http\Middleware\AuthLogin::class);
 
 Route::get('logout', [\App\Http\Controllers\AuthController::class, 'logout'])
-    ->name('logout')->middleware(\App\Http\Middleware\AuthLogin::class);
-Route::post('login', [\App\Http\Controllers\AuthController::class, 'login'])
+    ->name('logout');
+
+Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login'])
     ->name('user-login')
+    ->middleware(\App\Http\Middleware\AuthMiddleware::class);
+;
+Route::post('/signup', [\App\Http\Controllers\AuthController::class, 'signup'])
+    ->name('user-signup')
     ->middleware(\App\Http\Middleware\AuthLogin::class);
-Route::post('signup', [\App\Http\Controllers\AuthController::class, 'signup'])
-    ->name('user-signup')->middleware(\App\Http\Middleware\AuthLogin::class);
 
 
-Route::get('user', [\App\Http\Controllers\UserController::class, 'index'])
-    ->middleware('authenticate_user')
+Route::get('/user', [\App\Http\Controllers\UserController::class, 'index'])
+    ->middleware(\App\Http\Middleware\AuthMiddleware::class)
     ->name('user_profile');
 
-Route::get('thread', function () {
+Route::get('/thread', function () {
     return view('thread');
 })->name('thread');
 
-Route::get('new-thread', [\App\Http\Controllers\ThreadController::class, 'index'])
+Route::get('/new-thread', [\App\Http\Controllers\ThreadController::class, 'index'])
     ->name('new-thread')
-    ->middleware('authenticate_user');
+    ->middleware(\App\Http\Middleware\AuthMiddleware::class);
 
-Route::post('create-thread', [\App\Http\Controllers\ThreadController::class, 'create'])
+Route::post('/create-thread', [\App\Http\Controllers\ThreadController::class, 'create'])
     ->name('create-thread')
-    ->middleware('authenticate_user');
+    ->middleware(\App\Http\Middleware\AuthMiddleware::class);
 
-Route::post('create/post', [\App\Http\Controllers\PostController::class, 'create'])
+Route::post('/create/post', [\App\Http\Controllers\PostController::class, 'create'])
     ->name('create.post')
-    ->middleware('authenticate_user');
+    ->middleware(\App\Http\Middleware\AuthMiddleware::class);
 
-Route::get('thread/{id}', [\App\Http\Controllers\ThreadController::class, 'getThreadDetail'])
+Route::get('/thread/{id}', [\App\Http\Controllers\ThreadController::class, 'getThreadDetail'])
     ->name('thread.detail')
-    ->middleware('authenticate_user');
-
+    ->middleware(\App\Http\Middleware\AuthMiddleware::class);

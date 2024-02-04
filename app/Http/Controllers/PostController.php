@@ -23,6 +23,9 @@ class PostController extends Controller
 
         $response = $this->service->createNewPost($request);
 
+        if (in_array($response, [401])) {
+            return response()->json(['status' => $response]);
+        }
         if ($response->status() == 201) {
             session()->flash('msg', 'Your comment sent!');
             return redirect()->back();

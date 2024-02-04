@@ -45,11 +45,11 @@ class ThreadService
         $response = $this->http->getDataByGetMehtod(config('api.threads'));
         $threadCollection = json_decode($response->body());
 
-        foreach ($threadCollection?->threads as &$thread) {
+        foreach ($threadCollection?->threads ?? [] as &$thread) {
             $thread->posts = $this->getPostsByThreadId($thread->id);
         }
 
-        return $threadCollection->threads;
+        return $threadCollection->threads ?? [];
     }
 
     private function getPostsByThreadId(string $threadId)
@@ -62,7 +62,7 @@ class ThreadService
         );
 
         $posts = json_decode($response->body());
-        return $posts->posts;
+        return $posts->posts ?? [];
     }
 
     public function getThreadById(string $id)

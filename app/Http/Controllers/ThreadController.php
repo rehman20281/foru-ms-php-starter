@@ -47,7 +47,6 @@ class ThreadController extends Controller
 
             return view('thread_details', compact('thread', 'posts', 'threads'));
         } catch (\Throwable $e) {
-
         }
     }
 
@@ -58,7 +57,7 @@ class ThreadController extends Controller
             $posts = $this->postService->getPosts();
             return view('index', compact('threads', 'posts'));
         } catch (\Throwable $e) {
-
+    dd($e);
         }
     }
 }
