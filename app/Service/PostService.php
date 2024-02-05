@@ -35,4 +35,12 @@ class PostService
         return $posts->posts ?? [];
     }
 
+    public function getPostsByUserId($userId)
+    {
+        $response = $this->http->getDataByGetMehtod(config('api.posts'), 'userId='.$userId);
+        $posts = json_decode($response->body());
+
+        return $posts->posts ?? [];
+    }
+
 }

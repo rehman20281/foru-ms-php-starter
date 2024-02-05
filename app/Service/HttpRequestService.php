@@ -11,13 +11,13 @@ class HttpRequestService
      * @param string $url
      * @return Response
      */
-    public function getDataByGetMehtod(string $url = ""): Response
+    public function getDataByGetMehtod(string $url = "", ?string $query = null): Response
     {
         return Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => config('api.authorization'),
             'x-api-key' => config('api.api_key'),
-        ])->get($url);
+        ])->get($url, $query);
     }
 
 
